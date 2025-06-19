@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node16",
+    "module": "Node16",
+    "declaration": true,
+    "target": "ESNext",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": true,
+    "emitDecoratorMetadata": true,
+    "plugins": [{
+      "transform": "@sora-soft/type-guard/dist/transformer"
+    }]
+  },
+  "include": [
+    "./src/**/*",
+    "./.eslintrc.cjs"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
+}
