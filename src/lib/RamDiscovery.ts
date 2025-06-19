@@ -65,30 +65,37 @@ export class RamDiscovery extends Discovery {
 
   async registerWorker(worker: IWorkerMetaData): Promise<void> {
     this.workerMap_.set(worker.id, worker);
+    this.pushWorkerUpdate();
   }
 
   async registerService(service: IServiceMetaData): Promise<void> {
     this.serviceMap_.set(service.id, service);
+    this.pushServiceUpdate();
   }
 
   async registerEndpoint(info: IListenerMetaData): Promise<void> {
     this.listenerMap_.set(info.id, info);
+    this.pushListenerUpdate();
   }
 
   async registerNode(node: INodeMetaData): Promise<void> {
     this.nodeMap_.set(node.id, node);
+    this.pushNodeUpdate();
   }
 
   async unregisterWorker(id: string): Promise<void> {
     this.workerMap_.delete(id);
+    this.pushWorkerUpdate();
   }
 
   async unregisterService(id: string): Promise<void> {
     this.serviceMap_.delete(id);
+    this.pushServiceUpdate();
   }
 
   async unregisterEndPoint(id: string): Promise<void> {
     this.listenerMap_.delete(id);
+    this.pushListenerUpdate();
   }
 
   async unregisterNode(id: string): Promise<void> {
@@ -101,6 +108,22 @@ export class RamDiscovery extends Discovery {
 
   protected async startup(context: Context): Promise<void> {}
   protected async shutdown(): Promise<void> {}
+
+  private pushServiceUpdate() {
+    this.serviceSubject_.next([...this.serviceMap_].map(([_, service]) => service));
+  }
+
+  private pushNodeUpdate() {
+    this.nodeSubject_.next([...this.nodeMap_].map(([_, node]) => node));
+  }
+
+  private pushListenerUpdate() {
+    this.listenerSubject_.next([...this.listenerMap_].map(([_, listener]) => listener));
+  }
+
+  private pushWorkerUpdate() {
+    this.workerSubject_.next([...this.workerMap_].map(([_, worker]) => worker));
+  }
 
   get version() {
     return pkg.version;
